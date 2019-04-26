@@ -1,7 +1,9 @@
 import numpy as np
 import time
 import os
-
+""" Это моя вариация исполнения задания от Fast sense
+Я решил,что самым простым и быстрым способом будет выполнение на логиеских условиях
+"""
 class world:
     size = (20, 20) # задаю размеры карты
     robot_pose = (18,14) # задаю изначальное положение робота
@@ -27,7 +29,8 @@ class world:
         stop_area.append((robot_pose[0] + j, robot_pose[1]+1))
     def get_local_map(self): # Получаем локальную карту вокруг робота
         R = 1
-        local_map = world.map[world.robot_pose[0] - R:world.robot_pose[0] + R+1, world.robot_pose[1] - R:world.robot_pose[1] + R+1] #"Вырезаем" кусок изз матрицы карты
+        local_map = world.map[world.robot_pose[0] - R:world.robot_pose[0] + R+1, world.robot_pose[1] - R:world.robot_pose[1] + R+1]
+        #"Вырезаем" кусок из карты
         return local_map
     def get_robot_pose(self): # получаем координаты робота
         return world.robot_pose
@@ -42,11 +45,13 @@ class robot(world):
     def plan(self):
         local_map = world.get_local_map()
         local_pose = world.get_robot_pose()
+
         if local_map[1][2] == 1 and local_map[2][1]==1 and local_map[0][1] == 1 and local_map[1][0]==0:
             print('Выхожу из "кармана"')
             # проверка на нестандартную ситуацию, когда он попадает в "карман" и его зацикливает влево-вправо
             time.sleep(0.5)
             world.set_robot_pose(local_pose[0], local_pose[1] - 1)
+            os.system('cls||clear')
             print(world.map)
             local_map = world.get_local_map()
             local_pose = world.get_robot_pose()
@@ -87,10 +92,11 @@ world = world()
 robot = robot()
 print(world.stop_area)
 while(True):
-   go = robot.move()
-   time.sleep(0.5)
-   print(' ')
-   if go == 0:
+    os.system('cls||clear')
+    go = robot.move()
+    time.sleep(0.5)
+    print(' ')
+    if go == 0:
        print('Обход закончен')
        break
 
